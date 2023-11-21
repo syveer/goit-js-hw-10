@@ -3,12 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page title</title>
+    <title>Cat</title>
+    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
+    <link
+      rel="stylesheet"
+      href="../node_modules/notiflix/dist/notiflix-3.2.6.min.css"
+    />
     <link rel="stylesheet" href="./sass/index.scss" />
+    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+    <script src="../node_modules/notiflix/dist/notiflix-3.2.6.min.js"></script>
     <script type="module" src="./index.js"></script>
   </head>
   <body>
+    <div class="container">
+      <div class="loader" id="loader"></div>
+      <p class="error" id="error">An error occurred. Please try again later.</p>
+
+      <select class="breed-select" id="breedSelect"></select>
+
+      <div class="cat-info" id="catInfo">
+        <img
+          src="https://api.thecatapi.com/v1/images/search"
+          alt="Cat Image"
+          id="catImage"
+        />
+        <h2 id="catName"></h2>
+        <p id="catDescription"></p>
+        <p id="catTemperament"></p>
+      </div>
+    </div>
+    <span class="loader"></span>
     <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/example.html"></include>
+    <include src="./partials/api.js"></include>
+    <include src="./partials/ui.js"></include>
+    <include src="./partials/events.js"></include>
   </body>
 </html>
