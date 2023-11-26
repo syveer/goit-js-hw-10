@@ -2,6 +2,12 @@ const loader = document.querySelector('.loader');
 const breedSelect = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 
+// ui.js
+export function showError() {
+  const error = document.querySelector('.error');
+  error.style.display = 'block';
+}
+
 export function showLoader() {
   loader.style.display = 'block';
   breedSelect.style.display = 'none';
