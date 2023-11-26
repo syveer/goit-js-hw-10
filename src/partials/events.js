@@ -33,18 +33,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     Notiflix.Notify.Failure('An error occurred while fetching cat data.');
   }
 
-  breedSelect.slim.on('change', async () => {
+  const selectElement = document.querySelector('.breed-select');
+  selectElement.addEventListener('change', async () => {
     try {
       showLoader();
-      const selectedBreed = breedSelect.slim.selected();
+      const selectedBreed = breedSelect.selected();
       const breedId = selectedBreed ? selectedBreed.value : '';
       const response = await fetchCatByBreed(breedId);
       const catData = response.data[0];
       showCatInfo(catData);
-      hideLoader();
     } catch (error) {
       showError();
       Notiflix.Notify.Failure('An error occurred while fetching cat data.');
+    } finally {
+      hideLoader();
     }
   });
 });
