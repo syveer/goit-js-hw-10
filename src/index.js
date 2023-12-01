@@ -1,6 +1,6 @@
 import SlimSelect from 'slim-select';
 import './api.js';
-import { fetchBreeds, fetchCatByBreed } from './api.js';
+import { fetchBreeds, fetchCatByBreed } from './api.js ';
 import { showLoader, hideLoader, showError, showCatInfo } from './ui.js';
 import Notiflix from 'notiflix';
 
