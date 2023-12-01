@@ -1,12 +1,7 @@
 import SlimSelect from 'slim-select';
-import '../src/partials/api.js';
-import { fetchBreeds, fetchCatByBreed } from '../partials/api.js';
-import {
-  showLoader,
-  hideLoader,
-  showError,
-  showCatInfo,
-} from '../src/partials/ui.js';
+import './api.js';
+import { fetchBreeds, fetchCatByBreed } from './api.js';
+import { showLoader, hideLoader, showError, showCatInfo } from './ui.js';
 import Notiflix from 'notiflix';
 
 document.addEventListener('DOMContentLoaded', async () => {

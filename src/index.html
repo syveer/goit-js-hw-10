@@ -1,37 +1,29 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cat</title>
+    <title>Homework 10</title>
     <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
-    <link rel="stylesheet" href="./sass/index.scss"></link>
-    <script src="../node_modules/notiflix/dist/notiflix-3.2.6.min.js"></script>
-    <script type="module" src="./index.js"></script>
-    
+    <link rel="stylesheet" href="./sass/index.scss" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/slim-select/dist/slimselect.min.css"
+    />
   </head>
   <body>
-    <div class="container">
-      <div class="loader" id="loader"></div>
-      <p class="error" id="error">An error occurred. Please try again later.</p>
+    <select id="breed-select" class="breed-select"></select>
 
-      <select class="breed-select" id="breedSelect"></select>
-
-      <div class="cat-info" id="catInfo">
-        <img
-          src="https://api.thecatapi.com/v1/images/search?breed_ids=breedId "
-          alt="Cat Image"
-          id="catImage"
-        />
-        <h2 id="catName"></h2>
-        <p id="catDescription"></p>
-        <p id="catTemperament"></p>
-      </div>
+    <div class="loader-container common-style">
+      <div class="loader common-style"></div>
+      <span class="common-style">Loading data, please wait...</span>
     </div>
-    <span class="loader"></span>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/api.js"></include>
-    <include src="./partials/ui.js"></include>
 
+    <p class="error">Oops! Something went wrong! Try reloading the page!</p>
+
+    <div class="cat-info"></div>
+
+    <script src="index.js" type="module"></script>
   </body>
 </html>
