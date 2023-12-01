@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cat</title>
     <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
-    <link
-      rel="stylesheet"
-      href="../node_modules/notiflix/dist/notiflix-3.2.6.min.css"
-    />
-    <link rel="stylesheet" href="./sass/index.scss" />
-    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
-    <script src="../node_modules/notiflix/dist/notiflix-3.2.6.min.js"></script>
+    <link rel="stylesheet" href="./sass/index.scss"></link>
     <script type="module" src="./index.js"></script>
+    <script src="../node_modules/notiflix/dist/notiflix-3.2.6.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -23,7 +18,7 @@
 
       <div class="cat-info" id="catInfo">
         <img
-          src="https://api.thecatapi.com/v1/images/search"
+          src="https://api.thecatapi.com/v1/images/search?breed_ids=breedId "
           alt="Cat Image"
           id="catImage"
         />

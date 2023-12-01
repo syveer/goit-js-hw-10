@@ -8,6 +8,9 @@ import {
   showCatInfo,
 } from '../partials/ui.js';
 
+// Init the Notify Module
+Notiflix.Notify.Init({});
+
 document.addEventListener('DOMContentLoaded', async () => {
   const breedSelect = new SlimSelect({
     select: '.breed-select',
@@ -30,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     hideLoader();
   } catch (error) {
     showError();
-    Notiflix.Notify.Failure('An error occurred while fetching cat data.');
+    Notiflix.Notify.failure('An error occurred while fetching cat data.');
   }
 
   const selectElement = document.querySelector('.breed-select');
@@ -42,9 +45,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       const response = await fetchCatByBreed(breedId);
       const catData = response.data[0];
       showCatInfo(catData);
+      Notiflix.Notify.success('Cat data loaded successfully.');
     } catch (error) {
       showError();
-      Notiflix.Notify.Failure('An error occurred while fetching cat data.');
+      Notiflix.Notify.failure('An error occurred while fetching cat data.');
     } finally {
       hideLoader();
     }
