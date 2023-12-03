@@ -1,49 +1,102 @@
 import SlimSelect from 'slim-select';
-import './api.js';
+import { toggleLoader } from './ui.js';
 import { fetchBreeds, fetchCatByBreed } from './api.js';
-import { showLoader, hideLoader, showError, showCatInfo } from './ui.js';
 import Notiflix from 'notiflix';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const breedSelect = new SlimSelect({
-    select: '.breed-select',
-    placeholder: 'Select a breed',
-    searchPlaceholder: 'Search',
-    allowDeselect: true,
-  });
-
-  try {
-    showLoader();
-    const response = await fetchBreeds();
-    const breeds = response.data;
-    const breedOptions = breeds.map(breed => ({
-      text: breed.name,
-      value: breed.id,
-    }));
-
-    // Set data for SlimSelect
-    breedSelect.setData(breedOptions);
-    hideLoader();
-  } catch (error) {
-    showError();
-    Notiflix.Notify.failure('An error occurred while fetching cat data.');
+function toggleErrorMessage(visible) {
+  const errorElement = document.querySelector('.error');
+  if (errorElement) {
+    errorElement.style.display = visible ? 'block' : 'none';
   }
+}
 
-  const selectElement = document.querySelector('.breed-select');
-  selectElement.addEventListener('change', async () => {
-    try {
-      showLoader();
-      const selectedBreed = breedSelect.selected();
-      const breedId = selectedBreed ? selectedBreed.value : '';
-      const response = await fetchCatByBreed(breedId);
-      const catData = response.data[0];
-      showCatInfo(catData);
-      Notiflix.Notify.success('Cat data loaded successfully.');
-    } catch (error) {
-      showError();
-      Notiflix.Report.failure('An error occurred while fetching cat data.');
-    } finally {
-      hideLoader();
+function displayCatInfo(catData) {
+  const catInfoElement = document.querySelector('.cat-info');
+  if (catInfoElement) {
+    if (catData.breeds && catData.breeds.length > 0) {
+      const { name, description, temperament } = catData.breeds[0];
+
+      const catCardHTML = `
+        <div class="cat-card">
+          <img src="${catData.url}" alt="${name}" class="cat-image">
+          <div class="cat-details">
+            <h2>${name}</h2>
+            <p><strong>Description:</strong> ${description}</p>
+            <p><strong>Temperament:</strong> ${temperament}</p>
+          </div>
+        </div>
+      `;
+
+      catInfoElement.innerHTML = catCardHTML;
+      catInfoElement.style.display = 'block';
+    } else {
+      console.error('No breed information available');
+      catInfoElement.innerHTML = '<p>No breed information available</p>';
+      catInfoElement.style.display = 'block';
+      Notiflix.Notify.failure('No breed information available');
     }
+  }
+}
+
+function handleErrors(error) {
+  console.error('Error:', error);
+  toggleErrorMessage(true);
+  Notiflix.Notify.failure(
+    'Oops! Something went wrong! Try reloading the page!'
+  );
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  toggleLoader(false);
+
+  const breedSelect = new SlimSelect({
+    select: '#breed-select',
+    placeholder: 'Select a breed',
+    allowDeselect: true,
+    alwaysOn: false,
+    onChange: info => {
+      toggleLoader(true);
+      fetchCatByBreed(info.value)
+        .then(catInfo => {
+          toggleErrorMessage(false);
+          displayCatInfo(catInfo);
+        })
+        .catch(error => handleErrors(error))
+        .finally(() => {
+          toggleLoader(false);
+        });
+    },
   });
+
+  document.querySelector('#breed-select').addEventListener('change', event => {
+    const selectedBreedId = event.target.value;
+
+    toggleLoader(true);
+
+    fetchCatByBreed(selectedBreedId)
+      .then(catInfo => {
+        toggleErrorMessage(false);
+        displayCatInfo(catInfo);
+      })
+      .catch(error => handleErrors(error))
+      .finally(() => {
+        toggleLoader(false);
+      });
+  });
+
+  toggleLoader(false);
+
+  fetchBreeds()
+    .then(breeds => {
+      breedSelect.setData(
+        breeds.map(breed => ({ text: breed.name, value: breed.id }))
+      );
+      toggleErrorMessage(false);
+    })
+    .catch(error => {
+      handleErrors(error);
+    })
+    .finally(() => {
+      toggleLoader(false);
+    });
 });
